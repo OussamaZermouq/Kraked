@@ -2,14 +2,25 @@ import requests
 import discord
 import typing
 from discord.ext import commands
+from discord import Game, ActivityType
 from discord import app_commands
 
 
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 bot = commands.Bot(command_prefix='/', intents=intents)
+
 TOKEN= 'MTEyMDM0NjcyMzY2ODIwNTU4OA.GCt14g.4ySAAK5s07-PXBu_7PjbqOfc8vzOU6JHAjoKus'
 query=''
+
+
+
+@bot.event
+async def on_ready():
+    activity = discord.Game(name="/helpme", type=discord.ActivityType.playing)
+    await bot.change_presence(activity=activity)
+    print('Kraked is lurking for cracks, wtf?')
+
 
 def send_req(search_query):
     search_query = search_query.replace(' ','.')
@@ -44,7 +55,10 @@ async def status(message, *args):
         color=0xff0000
     embed = discord.Embed(title=title, description = result , color=color)
     await message.send(embed=embed)
-
-
+@bot.command()
+async def helpme(message):
+    description = 'Kraked is a simple discord bot that checks if a game has been cracked or not.\n\nCommands:\n\n\n status:\n\n \status <name of a game> \n\n\n\n version = 1.0'
+    embed = discord.Embed(title='Commands', description=description,color=0x00ff00)
+    await message.send(embed=embed)
 
 bot.run(TOKEN)
