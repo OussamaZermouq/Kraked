@@ -1,7 +1,7 @@
 import requests
 import discord
 import os
-from get_torrent import search, clean_links,grab_torrent, fetch_hash
+from get_torrent import search, clean_links,grab_torrent, fetch_url
 from discord.ext import commands
 import pprint
 import json
@@ -46,8 +46,11 @@ async def status(message, *args):
     query = '.'.join(args)
     result = search(query)
     text = ''
+    link = 'Link'
     for key,value in result.items():
-        text += clean_links(key).replace('-',' ') +' | ' + value +'\n'
+        url = fetch_url(key)
+        hyperlink = f'[{link}]({url})'
+        text += clean_links(key).replace('-',' ') +' | ' + value + ' | ' + hyperlink +'\n' 
 
     if len(result)>0:
         title = "Status: Cracked ✅ \nReleases:"

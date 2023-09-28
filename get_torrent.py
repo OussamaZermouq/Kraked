@@ -11,7 +11,6 @@ session  = requests.Session()
 def search(motif):
     output = {}
     url_test=f"https://1337x.to/sort-category-search/{motif.replace(' ','-')}/Games/time/desc/1/"
-    print(url_test)
     response = session.get(url=url_test)
     soup = BeautifulSoup(response.text,'html.parser')
     names = soup.find_all('td',class_='coll-1 name')
@@ -25,31 +24,14 @@ def search(motif):
     return output
 
 
-def fetch_hash(name):
-    results  = search(name).keys()
-    hash=[]
-    counter = 0
-    for result in results:
-        counter+=1
-        if name == result:
-            url = f'https://1337x.to{result}'
-            print(url)
-            if counter>1:
-                return -2
-            r = requests.get(url)
-            soup = BeautifulSoup(r.text,'html.parser')
-            hash_tag= soup.find('div',class_ = 'infohash-box')
-            for tags in hash_tag.children:
-                if len(tags)>=2:
-                    hash = tags.text.split()
-            break
-        else:
-            continue
-
-    if len(hash)>=2:
-        return hash[2]
-    else:
-        return -1
+def fetch_url(key):
+    url = f"https://1337x.to{key}"
+    response = session.get(url)
+    soup = BeautifulSoup(response.content,"html.parser")
+    hash_div = soup.find('div',class_='infohash-box')
+    hash = hash_div.find('span')
+    url_torrent = f'http://btcache.me/torrent/{hash.text}'
+    return url_torrent
 
 #hash test
 #hash='0FA471B97F5F461A1FE58A6220703CC3CFD1C816'
@@ -70,5 +52,3 @@ def clean_links(link):
         extracted_string = match.group(1)
         return extracted_string
 
-
-print(grab_torrent(fetch_hash('Forza.horizon.5.PROPER-EMPRESS')))
