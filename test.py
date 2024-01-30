@@ -1,7 +1,4 @@
-url = "https://www.example.com"
-text = "Visit Example.com"
+import os
 
-# Create a hyperlink string
-hyperlink = f'<a href="{url}">{text}</a>'
 
-print(hyperlink)
+print(os.environ.items)

@@ -1,17 +1,29 @@
 import requests
-import torrentool
 from bs4 import BeautifulSoup
+import urllib
 from urllib import parse
 import re 
-import wget
 
 session  = requests.Session()
+
+headers = {
+    'User-Agent': 'your_user_agent_here',
+    'Accept-Language': 'your_accept_language_here',
+    'Referer': 'your_referer_url_here',
+    # Add other necessary headers
+}
+
+cookies = {
+    'cookie_name': 'cookie_value',
+    # Add other necessary cookies
+}
 
 #the dumbest code on the planet, yet it works, dont judge me there is no API so we scrapy scrape
 def search(motif):
     output = {}
-    url_test=f"https://1337x.to/sort-category-search/{motif.replace(' ','-')}/Games/time/desc/1/"
-    response = session.get(url=url_test)
+    url_test=f"https://1337x.to/sort-category-search/{urllib.parse.quote(motif)}/Games/time/desc/1/"
+    #https://1337x.to/category-search/spider%20man/Games/1/
+    response = session.get(url=url_test, headers=headers, cookies=cookies)
     soup = BeautifulSoup(response.text,'html.parser')
     names = soup.find_all('td',class_='coll-1 name')
     sizes = soup.find_all('td',class_="coll-4 size mob-uploader")
@@ -51,4 +63,3 @@ def clean_links(link):
     if match:
         extracted_string = match.group(1)
         return extracted_string
-
