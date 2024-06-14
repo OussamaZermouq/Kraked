@@ -10,12 +10,10 @@ headers = {
     'User-Agent': 'your_user_agent_here',
     'Accept-Language': 'your_accept_language_here',
     'Referer': 'your_referer_url_here',
-    # Add other necessary headers
 }
 
 cookies = {
     'cookie_name': 'cookie_value',
-    # Add other necessary cookies
 }
 
 #the dumbest code on the planet, yet it works, dont judge me there is no API so we scrapy scrape

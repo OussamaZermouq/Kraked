@@ -6,6 +6,7 @@ from get_cracks_bitsearch import search
 from discord.ext import commands
 import urllib
 from art import text2art
+import sys
 from dotenv import load_dotenv
 
 
@@ -54,14 +55,18 @@ async def slash_command(interaction:discord.Interaction, game_name:str):
         text += release[0]+" | "+release[1]+" | "+hyperlink+"\n"
 
     if len(result)>0:
+        if sys.getsizeof(text)>4000:
+            text = 'I have found too many releases please be more specific.'
         title = "Status: Cracked ✅ \nReleases:"
         color =0x00ff00
         embed = discord.Embed(title=title, description = text , color=color)
         embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
+            
+
     else:
         title ="Status : Not Cracked! 😔"
         color=0xff0000
-        embed = discord.Embed(title=title, description = '' , color=color)
+        embed = discord.Embed(title=title, description = 'Nothing to see here' , color=color)
         embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
     await interaction.response.send_message(embed=embed)
 
