@@ -17,12 +17,15 @@ def search(motif):
     response = session.get(url=url_test)
     soup = BeautifulSoup(response.text,'html.parser')
     release_list = soup.find_all('h5',class_='title w-100 truncate')
+    print(soup)
     img_size_tags = soup.find_all('img', {'alt': 'Size'})
     download_links = soup.find_all('a',class_='dl-torrent')
+    seeders_counts = soup.find_all('img', {'alt': 'Seeder'})
 
     names_list =[]
     sizes_list =[]
     dl_link_list=[]
+    seeders_counts_list=[]
     for img_tag in img_size_tags:
         size_div = img_tag.find_parent('div')
         size = size_div.get_text(strip=True)
@@ -36,5 +39,12 @@ def search(motif):
     for download_link in download_links:
         dl_link_list.append(download_link.get('href'))
 
-    return list(zip(names_list,sizes_list,dl_link_list))
+    for seeder_count in seeders_counts:
+        seeder_count_div = seeder_count.find_parent('div')
+        seeder_count_text = seeder_count_div.get_text(strip=True)
+        seeders_counts_list.append(seeder_count_text)
+
+    return list(zip(names_list,sizes_list,seeders_counts_list,dl_link_list))
     
+
+print(search('chained together'))

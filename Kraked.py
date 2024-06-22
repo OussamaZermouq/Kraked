@@ -51,8 +51,8 @@ async def slash_command(interaction:discord.Interaction, game_name:str):
     link = 'Link'
     result = search(game_name)
     for release in result:
-        hyperlink = f'[{link}]({release[2].replace(" ","%20")})' #-_-
-        text += release[0]+" | "+release[1]+" | "+hyperlink+"\n"
+        hyperlink = f'[{link}]({release[3].replace(" ","%20")})' #-_-
+        text += release[0]+" | "+release[1]+" | "+release[2]+" |"+hyperlink+"\n"
 
     if len(result)>0:
         if sys.getsizeof(text)>4000:
@@ -73,12 +73,12 @@ async def slash_command(interaction:discord.Interaction, game_name:str):
 
 @bot.tree.command(name="helpme",description="Get help")
 async def slash_command(interaction:discord.Interaction):
-    help_embed = discord.Embed(title='Commands', description="A list of command",color=0x00ff00)
+    help_embed = discord.Embed(title='Commands', description="List of all commands",color=0x00ff00)
     help_embed.set_author(name="Kraked", icon_url=None)
     help_embed.add_field(name="description", value="Kraked is a simple discord bot that checks if a game has been cracked or not.", inline=False)
     help_embed.add_field(name="/status <name of a game>",value="Get the status of a game as well as the download links  ",  inline=False)
-    help_embed.add_field(name="/grabnfo",value="Get the nfo of a scene release", inline=False)
-    help_embed.set_footer(text="Version -_- 2.0")
+    help_embed.add_field(name="/grabnfo",value="Get the nfo of a scene release (needs the correct scene release title e.g ELDEN.RING.Shadow.of.the.Erdtree-RUNE)", inline=False)
+    help_embed.set_footer(text="Version -_- 2.0.1")
     await interaction.response.send_message(embed=help_embed)
 
 
@@ -89,7 +89,7 @@ async def slash_command(interaction:discord.Interaction, release_name:str):
     data = response.json()
     if response.status_code == 200:
         embed = discord.Embed(title='NFO', description=data['nfolink'],color=0x00ff00)
-        await interaction.response.send_message(f'NFO Request for: {release_name})')
+        await interaction.response.send_message(f'NFO Request for: {release_name} )')
         await interaction.response.defer()
         await interaction.followup.send(embed=embed)
 
