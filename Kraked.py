@@ -52,7 +52,7 @@ async def slash_command(interaction:discord.Interaction, game_name:str):
     result = search(game_name)
     for release in result:
         hyperlink = f'[{link}]({release[3].replace(" ","%20")})' #-_-
-        text += release[0]+" | "+release[1]+" | "+release[2]+" |"+hyperlink+"\n"
+        text += release[0]+" | "+release[1]+" | "+release[2]+" Seeders |"+hyperlink+"\n"
 
     if len(result)>0:
         if sys.getsizeof(text)>4000:
@@ -81,17 +81,14 @@ async def slash_command(interaction:discord.Interaction):
     help_embed.set_footer(text="Version -_- 2.0.1")
     await interaction.response.send_message(embed=help_embed)
 
-
 @bot.tree.command(name="grabnfo",description="Search for a release's NFO")
 async def slash_command(interaction:discord.Interaction, release_name:str):
     url=f'https://api.srrdb.com/v1/nfo/{release_name}'
     response = requests.get(url=url)
     data = response.json()
     if response.status_code == 200:
-        embed = discord.Embed(title='NFO', description=data['nfolink'],color=0x00ff00)
-        await interaction.response.send_message(f'NFO Request for: {release_name} )')
-        await interaction.response.defer()
-        await interaction.followup.send(embed=embed)
+        embed = discord.Embed(title=f'NFO Request for: {release_name} )', description=data['nfolink'],color=0x00ff00)
+        await interaction.response.send_message(embed=embed)
 
     else:
         await interaction.response.send_message(f'Request for: nfo {release_name} \n Not found')
