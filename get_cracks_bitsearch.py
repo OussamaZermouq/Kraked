@@ -46,5 +46,3 @@ def search(motif):
 
     return list(zip(names_list,sizes_list,seeders_counts_list,dl_link_list))
     
-
-print(search('chained together'))

@@ -3,6 +3,7 @@ import discord
 import os
 from get_torrent import clean_links,grab_torrent, fetch_url
 from get_cracks_bitsearch import search
+from get_cracks_onlinefix import search_online
 from discord.ext import commands
 import urllib
 from art import text2art
@@ -60,14 +61,20 @@ async def slash_command(interaction:discord.Interaction, game_name:str):
         title = "Status: Cracked ✅ \nReleases:"
         color =0x00ff00
         embed = discord.Embed(title=title, description = text , color=color)
-        embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
+        if interaction.user.avatar is None:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}")
+        else:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
             
 
     else:
         title ="Status : Not Cracked! 😔"
         color=0xff0000
         embed = discord.Embed(title=title, description = 'Nothing to see here' , color=color)
-        embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
+        if interaction.user.avatar is None:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}")
+        else:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
     await interaction.response.send_message(embed=embed)
 
 
@@ -78,6 +85,8 @@ async def slash_command(interaction:discord.Interaction):
     help_embed.add_field(name="description", value="Kraked is a simple discord bot that checks if a game has been cracked or not.", inline=False)
     help_embed.add_field(name="/status <name of a game>",value="Get the status of a game as well as the download links  ",  inline=False)
     help_embed.add_field(name="/grabnfo",value="Get the nfo of a scene release (needs the correct scene release title e.g ELDEN.RING.Shadow.of.the.Erdtree-RUNE)", inline=False)
+    help_embed.add_field(name="/status_online <name of a game>",value="Get the status of a game in online mode as well as the torrent download link",  inline=False)
+    
     help_embed.set_footer(text="Version -_- 2.0.1")
     await interaction.response.send_message(embed=help_embed)
 
@@ -92,6 +101,38 @@ async def slash_command(interaction:discord.Interaction, release_name:str):
 
     else:
         await interaction.response.send_message(f'Request for: nfo {release_name} \n Not found')
+
+@bot.tree.command(name="status_online", description="Look for online cracks for a game")
+async def slash_command(interaction:discord.Integration, game_name:str):
+    print(f'looking for {game_name}')
+    text = ''
+    link = 'Link'
+    result = search_online(game_name)
+    for release in result:
+        hyperlink = f'[{link}]({release[1]})' #-_-
+        text += f"{release[0]} | {hyperlink}\n"
+
+    if len(result)>0:
+        if sys.getsizeof(text)>4000:
+            text = 'I have found too many releases please be more specific.'
+        title = "Status: Cracked Online ✅ \nReleases:"
+        color =0x00ff00
+        embed = discord.Embed(title=title, description = text , color=color)
+        if interaction.user.avatar is None:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}")
+        else:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
+
+    else:
+        title ="Status : Online Not Cracked! 😔"
+        color=0xff0000
+        embed = discord.Embed(title=title, description = 'Nothing to see here try /status maybe ¯\_(ツ)_/¯' , color=color)
+        if interaction.user.avatar is None:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}")
+        else:
+            embed.set_footer(text=f"Request made by @{interaction.user.name}", icon_url=f"{interaction.user.avatar.url}")
+            
+    await interaction.response.send_message(embed=embed)
 
 
 bot.run(token)
