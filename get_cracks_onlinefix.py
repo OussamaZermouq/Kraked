@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from cookies import cookies
-
+import time
 cookies = cookies
 
 headers = {
@@ -39,12 +39,13 @@ def search_online(motif:str):
             #needs more filtering more ads/unwanted suggestion appear
             if (motif not in r.find_all('a')[1].h2.text.strip()):
                 continue
-            
+           
         game_title = r.find_all('a')[2].h2.text.replace("по сети","").strip()
         url = r.find_all('a')[2]['href']
         torrent_link = get_torrent_link(url)
         torrent_url_list.append(torrent_link)
         names_list.append(game_title)
+    
     return list(zip(names_list, torrent_url_list))
 
 def get_torrent_link(url:str):
@@ -53,4 +54,14 @@ def get_torrent_link(url:str):
     big_div = soup.find('div', class_="quote")
     links = big_div.find_all('a')
     return links[::-1][0]['href']
-    
+
+
+def get_torrent_file(url:str):
+    response = requests.get(url, headers=headers, cookies=cookies)
+    soup = BeautifulSoup(response.text,'html.parser')
+    links= soup.find_all('a')
+    torrent_name = links[1].text.replace('..>','')+".torrent"
+    torrent_request = requests.get(url+links[1]['href'], headers=headers, cookies=cookies)
+    with open(f'Torrents/{torrent_name}', 'wb') as torrent:
+        torrent.write(torrent_request.content)
+    return torrent_name

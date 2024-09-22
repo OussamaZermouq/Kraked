@@ -1,0 +1,7 @@
+<html>
+<head><title>Index of /torrents/Dale and Dawson Stationery Supplies/</title></head>
+<body>
+<h1>Index of /torrents/Dale and Dawson Stationery Supplies/</h1><hr><pre><a href="../">../</a>
+<a href="Dale.and.Dawson.Stationery.Supplies.v1.0.6-OFME.torrent">Dale.and.Dawson.Stationery.Supplies.v1.0.6-OFME..&gt;</a> 02-Sep-2024 11:10     30K
+</pre><hr><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'8bfa21170c2dbae8',t:'MTcyNTc0ODA3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
